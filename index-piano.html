@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<!-- 这狗很屌，叫它都不理我！ -->
+
+<!--
+
+                                              ...
+                                            .,///*.                       ..
+                                           .,///*//,.                   .*/**.
+                                          .,//*,,,*//******,,,....   .,*/////,.
+                                       ..,*//*,,.,,,********//////***//****//*,
+                                    .,*///**,,...........,,,,,,,,,****,,,,***/*.
+                                  .,*//*,,,,.....,,,,,,,...........,.....,,,,*/*,.
+                                .*//**,,.........,,,,,,,,...................,,,***.
+                              .*//**,............,,,,,,.......................,,,**,.
+                            .,*/*,,...............,,,,..........................,,**,.
+                           .,//*,....,,*//**,....................................,,**,.
+                          .*/*.    .,*/(%&&%(*.............,**///*,,,.............,,*/,.
+                         .,/*,     .,,*/#@&&%(*.........,,/((#%&@&%(/,,............,*/*,
+                         ,//,      ..,,*(&@@%(*,......,,*//*,*/%@@@@%/,.............,*/*.
+                        .*/,.       .,,,*/((/,........,*//,.,/&@@@@&(*,.............,,**,
+                        ,**.         ..,,**,,,..........,,***/#%%#(*,,... ...........,**,.
+                       .*/*.          .*((##((/*,.....   ..,,,,,,,.....    ..........,***.
+                       .*/,          ,(%@@@@@@&%/.            ......       ..........,***.
+                       ,**,         ./##%&@&&&&%/.                         ..........,***.
+                       ,**,         .,(%&&@&%%%(,                          ..........,***.
+                       .**,          ,*/#%%%##/,.                         ...........,*/*.
+                       .*/*.         .*(#%##/**,,...,,,,.                     .......,*/*.
+                        ,*/,.         .,*///////***,,..                           ...,*/*.
+                        .,/*,.             .....                                   ..,*/,.
+                         .,//,.                                                    .,,/*,
+                          .,*/*,.                                                  .,*/*.
+                            .*//**,.                                              ..,*/,.
+                             ,*////**,...                                       ...,*/*,
+                          .,*//*,,*///*,.....                                 .....,*/*.
+                        .,*/***.  .,,,,.                                      ....,,*/*.
+                      .,*/*,,..  ......                                         ..,,*/,.
+                   .,*///*,,.....,,..........,,..       ..,,....,,,,,,,,,.      ..,*/*,
+                  ,*/**//*,....,**,.........,,*****,,.,*///**,..,,,........    ..,,*/,.
+                .,/**,*//*,..,,*/*,............,,,,*///*,,,.....................,,*/*.
+               .,//**,*//*,,,,*///*,.............,,*/*.    ....................,*//*.
+                 .,***////*,...,*//*,,,.........,,*/*,      ..,,,,,,,,......,,,*//,.
+                     ...,*/*,,,,**////**,,,,,,,,,*//*,......,**/////*********//*,.
+                          .,******,..,***////*****///*****/**,,,***,,********,..
+                                        ....,,,,,*****//*,,....,**,.
+                                                     .,*****,,,*//,.
+                                                       ..,*******,.
+                                                            ...
+
+-->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="static/bootstrap.min.css" />
+    <title>Musicode Rocks - Piano</title>
+    <style>
+        body {
+            margin-top: 20px;
+        }
+        pre {
+            margin: 0;
+            padding: 0;
+            border: none;
+            background: none;
+        }
+        .range-bar {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .block, textarea, #keyboard {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body class="container-fluid">
+
+<div class="block">
+    <div class="alert alert-success">
+        Musicode Rocks \m/ &nbsp;&nbsp;
+        <select title="sound" onchange="window.location = event.target.value;">
+            <option value="index-piano.html">Piano</option>
+            <option value="index.html">Guitar</option>
+        </select>
+    </div>
+    <div id="keyboard"></div>
+    <input type="button" id="btn-together" class="btn btn-success" onclick="playOrStopTogether()" value="Play" />
+</div>
+
+<div class="block">
+    <div class="alert alert-success">
+        Track 1:&nbsp;
+        Tempo: <span id="tempo1">64</span> &nbsp; | &nbsp;
+        Volume: <span id="volume1">1.5</span> &nbsp; | &nbsp;
+        Capo: <span id="capo1">0</span>
+    </div>
+
+    <div class="range-bar">
+        <label><input type="range" min="0" max="240.0" step="1" value="64" oninput="setTempo(this, 1);"></label>&nbsp; &nbsp;
+        <label><input type="range" min="0" max="3.0" step="0.1" value="1.5" oninput="setVolume(this, 1);"></label>&nbsp; &nbsp;
+        <label><input type="range" min="-12" max="12" step="1" value="0" oninput="setCapo(this, 1);"></label>
+    </div>
+
+    <pre><textarea id="textarea1" spellcheck="false" class="form-control" rows="3" title=""></textarea></pre>
+
+    <input type="button" id="btn-track1" class="btn btn-success" onclick="playOrStopTrack(1)" value="Play">
+    <input type="button" class="btn btn-success" onclick="format(1)" value="format" />
+</div>
+
+<div class="block">
+    <div class="alert alert-success">
+        Track 2:&nbsp;
+        Tempo: <span id="tempo2">64</span> &nbsp; | &nbsp;
+        Volume: <span id="volume2">1.5</span> &nbsp; | &nbsp;
+        Capo: <span id="capo2">0</span>
+    </div>
+
+    <div class="range-bar">
+        <label><input type="range" min="0" max="240.0" step="1" value="64" oninput="setTempo(this, 2);"></label>&nbsp; &nbsp;
+        <label><input type="range" min="0" max="3.0" step="0.1" value="1.5" oninput="setVolume(this, 2);"></label>&nbsp; &nbsp;
+        <label><input type="range" min="-12" max="12" step="1" value="0" oninput="setCapo(this, 2);"></label>
+    </div>
+
+    <pre><textarea id="textarea2" spellcheck="false" class="form-control" rows="8" title=""></textarea></pre>
+
+    <input type="button" id="btn-track2" class="btn btn-success" onclick="playOrStopTrack(2)" value="Play" />
+    <input type="button" class="btn btn-success" onclick="format(2)" value="format" />
+</div>
+
+<a href="https://github.com/CMajorRocks/musicode"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
+<script src="src/webaudio.js"></script>
+<script src="src/synth.js"></script>
+<script src="src/keyboard.js"></script>
+<script src="src/musicode.js"></script>
+<script src="src/piano-sound.js"></script>
+
+<script>
+    var audioContext = getAudioContext();
+
+    // Init piano audio buffers
+    var i = 0;
+    var audioBuffers = [0];
+
+    for (var prop in soundFonts) {
+        if (soundFonts.hasOwnProperty(prop)) {
+            var data = b64ToArrBuf(soundFonts[prop].substr(22));
+            audioContext.decodeAudioData(data, function(buffer) {
+                audioBuffers.push(buffer);
+                if (++i == 88) {
+                    audioBuffers = Synth.setPianoKeys(audioBuffers);
+                }
+            });
+        }
+    }
+
+    var track1;
+    var track2;
+    var isPlayTrack1 = false;
+    var isPlayTrack2 = false;
+    var isPlayTogether = false;
+
+    var tempo1 = document.getElementById('tempo1');
+    var tempo2 = document.getElementById('tempo2');
+
+    var volume1 = document.getElementById('volume1');
+    var volume2 = document.getElementById('volume2');
+
+    var capo1 = document.getElementById('capo1');
+    var capo2 = document.getElementById('capo2');
+
+    var textarea1 = document.getElementById('textarea1');
+    var textarea2 = document.getElementById('textarea2');
+
+    var btnTrack1 = document.getElementById('btn-track1');
+    var btnTrack2 = document.getElementById('btn-track2');
+    var btnTogether = document.getElementById('btn-together');
+
+    textarea1.value = Musicode.format([
+        'E5 D5 C5 B4 A4 G4 A4 B4 C5',
+        '2 2 2 2 2 2 2 2 2'
+    ].join('\n'));
+
+    textarea2.value = Musicode.format([
+        'C4 E4 G4 ~ G3 B3 D4 ~ A3 C4 E4 ~ E3 G3 B3 ~',
+        '8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8',
+        'F3 A3 C4 ~ C3 E3 G3 ~ F3 A3 C4 ~ G3 B3 D4 ~',
+        '8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8',
+        'C4 E4 G4 C5 C6',
+        '4 4 4 4 2'
+    ].join('\n'));
+
+    var keyboard = new Keyboard();
+
+    keyboard.draw();
+
+    keyboard.keyDownCallback = function (note) {
+        console.log('key down: ' + note);
+
+        var gainNote = audioContext.createGain();
+        gainNote.connect(audioContext.destination);
+
+        // fade out
+        gainNote.gain.linearRampToValueAtTime(1.0, audioContext.currentTime);
+        gainNote.gain.linearRampToValueAtTime(0, audioContext.currentTime + 1);
+
+        var source = audioContext.createBufferSource();
+
+        source.buffer = audioBuffers[note];
+        source.connect(gainNote);
+
+        source.start(audioContext.currentTime);
+        source.stop(audioContext.currentTime + 1);
+    };
+
+    keyboard.keyUpCallback = function (note) {
+        console.log('key up: ' + note);
+    };
+
+    function getVar(name, i) {
+        return window[name + i];
+    }
+
+    function setVar(name, i, val) {
+        window[name + i] = val;
+    }
+
+    function b64ToArrBuf(base64) {
+        var binaryString =  window.atob(base64);
+        var len = binaryString.length;
+        var bytes = new Uint8Array( len );
+        for (var i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes.buffer;
+    }
+
+    function newTrack(i) {
+        return new Musicode({
+            music: window['textarea' + i].value,
+            tempo: window['tempo' + i].innerHTML,
+            volume: window['volume' + i].innerHTML,
+            capo: window['capo' + i].innerHTML,
+            audioBuffers: audioBuffers,
+            keyboard: keyboard
+        });
+    }
+
+    var counter = 0;
+
+    function imDone() {
+        if (++counter == 2) {
+            // yes we are done
+            btnTogether.value = 'Play';
+            btnTogether.className = 'btn btn-success';
+            counter = 0;
+            isPlayTogether = false;
+        }
+    }
+
+    function playOrStopTogether() {
+        if (isPlayTogether) {
+            track1.stop();
+            track2.stop();
+            track1 = null;
+            track2 = null;
+            btnTogether.value = 'Play';
+            btnTogether.className = 'btn btn-success';
+            isPlayTogether = false;
+        } else {
+            track1 = newTrack(1);
+            track2 = newTrack(2);
+
+            track1.stopCallback = function () {
+                imDone();
+            };
+            track2.stopCallback = function () {
+                imDone();
+            };
+
+            track1.play();
+            track2.play();
+            btnTogether.value = 'Stop';
+            btnTogether.className = 'btn btn-warning';
+            isPlayTogether = true;
+        }
+    }
+
+    function playOrStopTrack(i) {
+        var track;
+        var btnTrack = window['btnTrack' + i];
+
+        if (getVar('isPlayTrack', i)) {
+            track = window['track' + i];
+            track.stop();
+            btnTrack.value = 'Play';
+            btnTrack.className = 'btn btn-success';
+            setVar('isPlayTrack', i, false);
+        } else {
+            setVar('track', i, newTrack(i));
+
+            track = getVar('track', i);
+
+            track.stopCallback = function () {
+                btnTrack.value = 'Play';
+                btnTrack.className = 'btn btn-success';
+                setVar('isPlayTrack', i, false);
+            };
+
+            track.play();
+            btnTrack.value = 'Stop';
+            btnTrack.className = 'btn btn-warning';
+            setVar('isPlayTrack', i, true);
+        }
+    }
+
+    function setTempo(range, i) {
+        var track = window['track' + i];
+        var tempo = window['tempo' + i];
+        if (track) {
+            track.setTempo(range.value);
+        }
+        tempo.innerHTML = range.value;
+    }
+
+    function setVolume(range, i) {
+        var track = window['track' + i];
+        var volume = window['volume' + i];
+        if (track) {
+            track.setVolume(range.value);
+        }
+        volume.innerHTML = range.value;
+    }
+
+    function setCapo(range, i) {
+        var track = window['track' + i];
+        var capo = window['capo' + i];
+        if (track) {
+            track.setCapo(range.value);
+        }
+        capo.innerHTML = range.value;
+    }
+
+    function format(i) {
+        var textarea = window['textarea' + i];
+        textarea.value = Musicode.format(textarea.value);
+    }
+</script>
+
+</body>
+</html>
