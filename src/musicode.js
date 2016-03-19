@@ -22,15 +22,14 @@
     var Musicode = function (opts) {
         opts = opts || {};
 
+        // Guitar rocks \m/
+        this.capo = parseInt(opts.capo) || 0;
         this.music = opts.music || '';
-        this.notes = opts.notes || Musicode.getNotes(this.music);
+        this.notes = opts.notes || Musicode.getNotes(this.music, this.capo);
 
         // Tempo (in beats per minute)
         this.tempo = opts.tempo || 120;
         this.volume = opts.volume || 0.5;
-
-        // Guitar rocks \m/
-        this.capo = parseInt(opts.capo) || 0;
 
         // How frequently to call scheduling function
         this.interval = opts.interval || 25.0;
@@ -125,12 +124,13 @@
     };
 
     /**
-     * Set Capo
+     * Set capo
      *
      * @param {int|string} capo
      */
     Musicode.prototype.setCapo = function (capo) {
-        this.capo = parseInt(capo);
+        this.capo = parseInt(capo) || 0;
+        this.notes = Musicode.getNotes(this.music, this.capo);
     };
 
     /**
@@ -211,9 +211,12 @@
      * Get note objects from music
      *
      * @param {string} music
+     * @param {int|string} shift
      * @returns {Array}
      */
-    Musicode.getNotes = function (music) {
+    Musicode.getNotes = function (music, shift) {
+        shift = parseInt(shift) || 0;
+
         if (!Musicode.isStandardNotation(music)) {
             music = Musicode.toStandardNotation(music);
         }
@@ -228,7 +231,7 @@
                 var durations = rows[i].trim().split(/[\s,]+/);
 
                 for (var j = 0; j < values.length; j++) {
-                    var val = values[j];
+                    var val = shiftNote(values[j], shift);
                     var dur = durations[j];
 
                     while (j + 1 < values.length && values[j + 1] == tie) {
@@ -340,8 +343,7 @@
         var source = audioContext.createBufferSource();
 
         if (note.val != rest) {
-            var index = Synth.getNoteIndex(note.val) + this.capo;
-            source.buffer = this.audioBuffers[Synth.getIndexNote(index)];
+            source.buffer = this.audioBuffers[note.val];
         }
 
         source.connect(gainNote);
@@ -538,6 +540,20 @@
         }
 
         return [a, b];
+    }
+
+    /**
+     * Shift note
+     *
+     * @param {string} note
+     * @param {int|string} shift
+     * @returns {string}
+     */
+    function shiftNote(note, shift) {
+        if (note == tie || note == rest) {
+            return note;
+        }
+        return Synth.shiftNote(note, shift);
     }
 
     this.Musicode = Musicode;

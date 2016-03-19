@@ -80,6 +80,18 @@ var Synth = {};
     };
 
     /**
+     * Shift note
+     *
+     * @param {string} note
+     * @param {int|string} shift
+     * @returns {string}
+     */
+    Synth.shiftNote = function (note, shift) {
+        shift = parseInt(shift) || 0;
+        return Synth.getIndexNote(Synth.getNoteIndex(note) + shift);
+    };
+
+    /**
      * Get audio buffer (Karplus-Strong Algorithm)
      *
      * @param {object} opts
